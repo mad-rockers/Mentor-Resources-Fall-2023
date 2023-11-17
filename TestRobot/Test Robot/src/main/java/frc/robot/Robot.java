@@ -8,11 +8,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
@@ -26,8 +23,6 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
-  private final PWMSparkMax m_onlyDrive = new PWMSparkMax(0);
-  private final XboxController m_controller = new XboxController(0);
   private final NetworkTableEntry ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty");
 
   private RobotContainer m_robotContainer;
@@ -95,11 +90,15 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Angle of April Tag:", angle_of_target);
     SmartDashboard.putNumber("Distance:", distance_from_target);
 
-    if (distance_from_target > 40.0 && distance_from_target < 999999) {
-      m_onlyDrive.set(0.5);
-    } else {
-      m_onlyDrive.stopMotor();
-    }
+    /* 
+     * The following lines (commented out already) need to be replacing with 
+     * Command-Based programming using the MotorSubsysem.
+     */
+    // if (distance_from_target > 40.0 && distance_from_target < 999999) {
+    //   m_onlyDrive.set(0.5);
+    // } else {
+    //   m_onlyDrive.stopMotor();
+    // }
   }
 
   @Override
@@ -115,16 +114,7 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {
-    double controllerRightYPosition = m_controller.getRightY();
-    SmartDashboard.putNumber("Xbox Right Y Value:", controllerRightYPosition);
-
-    if (controllerRightYPosition <= 0.05 && controllerRightYPosition >= -0.05) {
-      m_onlyDrive.stopMotor();
-    } else {
-      m_onlyDrive.set(controllerRightYPosition);
-    }
-  }
+  public void teleopPeriodic() {}
 
   @Override
   public void testInit() {
