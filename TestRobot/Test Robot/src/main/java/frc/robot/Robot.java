@@ -10,9 +10,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
-
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -23,7 +20,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
-  private final NetworkTableEntry ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty");
+  // private final NetworkTableEntry ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty");
 
   private RobotContainer m_robotContainer;
 
@@ -36,6 +33,10 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    SmartDashboard.putString("Softare Version:", "Test Robot 0.1.0");
+    System.out.println("******************************************");
+    System.out.println("*** Software Version: Test Robot 0.1.0 ***");
+    System.out.println("******************************************");
   }
 
   /**
@@ -75,21 +76,6 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    // private NetworkTableEntry ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty");
-
-    double h_cam = 14.5;
-    double h_target = 25.0;
-    double angle_of_camera = 0.0; // in degrees
-    double angle_of_target = ty.getDouble(0.0);
-
-    double distance_from_target = (h_target - h_cam) / Math.tan(Math.toRadians(angle_of_camera + angle_of_target));
-    
-    SmartDashboard.putNumber("Height of Camera:", h_cam);
-    SmartDashboard.putNumber("Height of Target:", h_target);
-    SmartDashboard.putNumber("Angle of Camera from Level Plane:", angle_of_camera);
-    SmartDashboard.putNumber("Angle of April Tag:", angle_of_target);
-    SmartDashboard.putNumber("Distance:", distance_from_target);
-
     /* 
      * The following lines (commented out already) need to be replacing with 
      * Command-Based programming using the MotorSubsysem.
