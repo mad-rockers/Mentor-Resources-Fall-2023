@@ -9,6 +9,8 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.MecanumDriveSubsystem;
+import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -24,6 +26,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final CameraSubsystem m_cameraSubsystem = new CameraSubsystem();
+  private final MecanumDriveSubsystem m_mecanumDriveSubsystem = new MecanumDriveSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -36,6 +39,10 @@ public class RobotContainer {
 
     m_cameraSubsystem.setDefaultCommand(
       Commands.run( () -> m_cameraSubsystem.calculateDistanceFromTarget(), m_cameraSubsystem)
+    );
+
+    m_mecanumDriveSubsystem.setDefaultCommand(
+      Commands.run( () -> m_mecanumDriveSubsystem.driveCartesian(m_driverController.getLeftY(), m_driverController.getLeftX(), m_driverController.getRightX()), m_mecanumDriveSubsystem)
     );
   }
 
