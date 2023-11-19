@@ -5,18 +5,10 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 
 
 /**
@@ -28,10 +20,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
-  private final PWMSparkMax m_onlyDrive = new PWMSparkMax(0);
-  private final XboxController m_controller = new XboxController(0);
-  private final Timer m_timer = new Timer();
-  private final NetworkTableEntry ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty");
+  // private final NetworkTableEntry ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty");
 
   private RobotContainer m_robotContainer;
 
@@ -44,6 +33,10 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    SmartDashboard.putString("Softare Version:", "Test Robot 0.1.0");
+    System.out.println("******************************************");
+    System.out.println("*** Software Version: Test Robot 0.1.0 ***");
+    System.out.println("******************************************");
   }
 
   /**
@@ -74,8 +67,6 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-    m_timer.restart();
-
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -85,30 +76,11 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    // private NetworkTableEntry ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty");
-
-    double h_cam = 14.5;
-    double h_target = 25.0;
-    double angle_of_camera = 0.0; // in degrees
-    double angle_of_target = ty.getDouble(0.0);
-
-    double distance_from_target = (h_target - h_cam) / Math.tan(Math.toRadians(angle_of_camera + angle_of_target));
-    
-    SmartDashboard.putNumber("Height of Camera:", h_cam);
-    SmartDashboard.putNumber("Height of Target:", h_target);
-    SmartDashboard.putNumber("Angle of Camera from Level Plane:", angle_of_camera);
-    SmartDashboard.putNumber("Angle of April Tag:", angle_of_target);
-    SmartDashboard.putNumber("Distance:", distance_from_target);
-
-    if (distance_from_target > 40.0 && distance_from_target < 999999) {
-      m_onlyDrive.set(0.5);
-    } else {
-      m_onlyDrive.stopMotor();
-    }
-
-    // Drive for 2 seconds
-    // if (m_timer.get() < 2.0) {
-    //   // Drive forward at half-speed
+    /* 
+     * The following lines (commented out already) need to be replacing with 
+     * Command-Based programming using the MotorSubsysem.
+     */
+    // if (distance_from_target > 40.0 && distance_from_target < 999999) {
     //   m_onlyDrive.set(0.5);
     // } else {
     //   m_onlyDrive.stopMotor();
@@ -128,16 +100,7 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {
-    double controllerRightYPosition = m_controller.getRightY();
-    SmartDashboard.putNumber("Xbox Right Y Value:", controllerRightYPosition);
-
-    if (controllerRightYPosition <= 0.05 && controllerRightYPosition >= -0.05) {
-      m_onlyDrive.stopMotor();
-    } else {
-      m_onlyDrive.set(controllerRightYPosition);
-    }
-  }
+  public void teleopPeriodic() {}
 
   @Override
   public void testInit() {
