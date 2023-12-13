@@ -9,10 +9,10 @@ public class MecanumDriveSubsystem extends SubsystemBase {
     private MecanumDrive m_robotDrive;
 
     public MecanumDriveSubsystem() {
-        PWMSparkMax frontLeft = new PWMSparkMax(3);
-        PWMSparkMax rearLeft = new PWMSparkMax(0);
-        PWMSparkMax frontRight = new PWMSparkMax(2);
-        PWMSparkMax rearRight = new PWMSparkMax(1);
+        PWMSparkMax frontLeft = new PWMSparkMax(0);
+        PWMSparkMax rearLeft = new PWMSparkMax(3);
+        PWMSparkMax frontRight = new PWMSparkMax(1);
+        PWMSparkMax rearRight = new PWMSparkMax(2);
 
         frontRight.setInverted(true);
         rearRight.setInverted(true);
@@ -22,5 +22,20 @@ public class MecanumDriveSubsystem extends SubsystemBase {
 
     public void driveCartesian(double forwardAndBack, double leftAndRight, double spinAround) {
         m_robotDrive.driveCartesian(-forwardAndBack, leftAndRight, spinAround);
+    }
+
+    public void driveForwards(double xSpeed)
+    {
+        m_robotDrive.driveCartesian(xSpeed, 0, 0);
+    }
+
+    public void rotate(double zSpeed)
+    {
+        m_robotDrive.driveCartesian(0, 0, zSpeed);
+    }
+
+    public void stop()
+    {
+        m_robotDrive.driveCartesian(0, 0, 0);
     }
 }

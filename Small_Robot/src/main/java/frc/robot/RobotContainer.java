@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.GoToTargetCommand;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.MecanumDriveSubsystem;
@@ -56,8 +57,10 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
+    // new Trigger(m_driverController.a().onTrue(getAutonomousCommand()))
+    //     .onTrue(new GoToTargetCommand(m_cameraSubsystem, m_mecanumDriveSubsystem));
+
+    m_driverController.a().onTrue(new GoToTargetCommand(m_cameraSubsystem, m_mecanumDriveSubsystem));
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.

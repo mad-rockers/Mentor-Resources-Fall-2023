@@ -20,9 +20,9 @@ public class CameraSubsystem extends SubsystemBase {
     private double distanceFromTarget;
 
     public CameraSubsystem() {
-        heightOfCamera = 11.5;
+        heightOfCamera = 8;
         heightOfTarget = 16;
-        angleBetweenLevelPlaneAndCamera = 0;
+        angleBetweenLevelPlaneAndCamera = 10;
     }
 
     public void calculateDistanceFromTarget() {
@@ -31,8 +31,25 @@ public class CameraSubsystem extends SubsystemBase {
         distanceFromTarget = (heightOfTarget - heightOfCamera) / Math.tan(Math.toRadians(angleBetweenLevelPlaneAndCamera + angleBetweenCameraAndTarget));
     }
 
+    public double getDistance()
+    {
+        return distanceFromTarget;
+    }
+
+    public boolean getValidTarget()
+    {
+        if (tv.getDouble(0.0) == 1)
+            return true;
+        
+        else
+            return false;
+        
+    }
+
     @Override
     public void periodic() {
+
+        calculateDistanceFromTarget();
         SmartDashboard.putNumber("Height of Camera:", heightOfCamera);
         SmartDashboard.putNumber("Height of Target:", heightOfTarget);
         SmartDashboard.putNumber("Angle of Camera from Level Plane:", angleBetweenLevelPlaneAndCamera);
