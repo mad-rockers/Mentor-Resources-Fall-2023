@@ -4,17 +4,16 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.GoToTargetCommand;
-import frc.robot.subsystems.CameraSubsystem;
-import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.MecanumDriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.Autos;
+import frc.robot.commands.GoToTargetCommand;
+import frc.robot.subsystems.CameraSubsystem;
+import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.MecanumDriveSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -38,12 +37,16 @@ public class RobotContainer {
     configureBindings();
 
     m_cameraSubsystem.setDefaultCommand(
-      Commands.run( () -> m_cameraSubsystem.calculateDistanceFromTarget(), m_cameraSubsystem)
-    );
+        Commands.run(() -> m_cameraSubsystem.calculateDistanceFromTarget(), m_cameraSubsystem));
 
     m_mecanumDriveSubsystem.setDefaultCommand(
-      Commands.run( () -> m_mecanumDriveSubsystem.driveCartesian(m_driverController.getLeftY(), m_driverController.getLeftX(), m_driverController.getRightX()), m_mecanumDriveSubsystem)
-    );
+        Commands.run(
+            () ->
+                m_mecanumDriveSubsystem.driveCartesian(
+                    m_driverController.getLeftY(),
+                    m_driverController.getLeftX(),
+                    m_driverController.getRightX()),
+            m_mecanumDriveSubsystem));
   }
 
   /**
@@ -60,7 +63,9 @@ public class RobotContainer {
     // new Trigger(m_driverController.a().onTrue(getAutonomousCommand()))
     //     .onTrue(new GoToTargetCommand(m_cameraSubsystem, m_mecanumDriveSubsystem));
 
-    m_driverController.a().onTrue(new GoToTargetCommand(m_cameraSubsystem, m_mecanumDriveSubsystem));
+    m_driverController
+        .a()
+        .onTrue(new GoToTargetCommand(m_cameraSubsystem, m_mecanumDriveSubsystem));
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
