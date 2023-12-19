@@ -24,7 +24,7 @@ import frc.robot.subsystems.MecanumDriveSubsystem;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final CameraSubsystem m_cameraSubsystem = new CameraSubsystem();
+  private final CameraSubsystem m_cameraSubsystem = new CameraSubsystem("limelight");
   private final MecanumDriveSubsystem m_mecanumDriveSubsystem = new MecanumDriveSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
