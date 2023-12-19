@@ -13,6 +13,7 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.GoToTargetCommand;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.LauncherSubsystem;
 import frc.robot.subsystems.MecanumDriveSubsystem;
 
 /**
@@ -26,6 +27,7 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final CameraSubsystem m_cameraSubsystem = new CameraSubsystem("limelight");
   private final MecanumDriveSubsystem m_mecanumDriveSubsystem = new MecanumDriveSubsystem();
+  private final LauncherSubsystem m_launcherSubsystem = new LauncherSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -69,7 +71,7 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    m_driverController.b().whileTrue(m_launcherSubsystem.spoolUpLauncherCommand());
   }
 
   /**

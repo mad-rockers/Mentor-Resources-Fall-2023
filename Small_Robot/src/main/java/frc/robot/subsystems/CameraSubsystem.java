@@ -57,6 +57,10 @@ public class CameraSubsystem extends SubsystemBase {
     return targetData.tv;
   }
 
+  public double getTargetID() {
+    return targetData.tid;
+  }
+
   public void calculateDistanceFromTarget() {
     angleBetweenCameraAndTarget = targetData.ty;
 
