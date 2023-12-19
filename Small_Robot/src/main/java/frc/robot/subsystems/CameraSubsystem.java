@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.LimelightHelpers;
@@ -18,6 +19,7 @@ public class CameraSubsystem extends SubsystemBase {
 
   public CameraSubsystem(String limelightName) {
     this.limelightName = limelightName;
+    LimelightHelpers.setLEDMode_ForceOff(limelightName);
 
     heightOfCamera = 8;
     heightOfTarget = 16;
@@ -41,12 +43,13 @@ public class CameraSubsystem extends SubsystemBase {
       double ta = fiducial.ta;
       double tid = fiducial.fiducialID;
       boolean tv = fiducial.fiducialID != 0; // Assuming ID 0 means no valid target
+      Pose2d pose2d = fiducial.getRobotPose_TargetSpace2D();
 
-      targetData = new TargetData(tx, ty, ta, tid, tv);
+      targetData = new TargetData(tx, ty, ta, tid, tv, pose2d);
       return targetData;
     }
 
-    targetData = new TargetData(0, 0, 0, 0, false);
+    targetData = new TargetData(0, 0, 0, 0, false, null);
     return targetData; // Return default values if no target is found
   }
 
@@ -86,11 +89,19 @@ public class CameraSubsystem extends SubsystemBase {
       SmartDashboard.putNumber("Limelight X Value:", data.tx);
       SmartDashboard.putNumber("Limelight Y Value:", data.ty);
       SmartDashboard.putNumber("Limelight Area Value:", data.ta);
+      SmartDashboard.putNumber("Target ID:", data.tid);
+      SmartDashboard.putNumber("2d Pose X:", data.pose2d.getX());
+      SmartDashboard.putNumber("2d Pose Y:", data.pose2d.getY());
+      SmartDashboard.putNumber("2d Pose Rotation:", data.pose2d.getRotation().getDegrees());
     } else {
       SmartDashboard.putBoolean("Valid Target Found:", data.tv);
       SmartDashboard.putNumber("Limelight X Value:", 0);
       SmartDashboard.putNumber("Limelight Y Value:", 0);
       SmartDashboard.putNumber("Limelight Area Value:", 0);
+      SmartDashboard.putNumber("Target ID:", 0);
+      SmartDashboard.putNumber("2d Pose X:", 0);
+      SmartDashboard.putNumber("2d Pose Y:", 0);
+      SmartDashboard.putNumber("2d Pose Rotation:", 0);
     }
   }
 }
