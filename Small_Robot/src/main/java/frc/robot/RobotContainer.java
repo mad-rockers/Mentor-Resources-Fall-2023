@@ -4,16 +4,17 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.CameraSubsystem;
-import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.MecanumDriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.Autos;
+import frc.robot.commands.GoToSpecificTargetCommand;
+import frc.robot.subsystems.CameraSubsystem;
+import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.LauncherSubsystem;
+import frc.robot.subsystems.MecanumDriveSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -24,8 +25,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final CameraSubsystem m_cameraSubsystem = new CameraSubsystem();
+  private final CameraSubsystem m_cameraSubsystem = new CameraSubsystem("limelight");
   private final MecanumDriveSubsystem m_mecanumDriveSubsystem = new MecanumDriveSubsystem();
+  private final LauncherSubsystem m_launcherSubsystem = new LauncherSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -37,12 +39,16 @@ public class RobotContainer {
     configureBindings();
 
     m_cameraSubsystem.setDefaultCommand(
-      Commands.run( () -> m_cameraSubsystem.calculateDistanceFromTarget(), m_cameraSubsystem)
-    );
+        Commands.run(() -> m_cameraSubsystem.calculateDistanceFromTarget(), m_cameraSubsystem));
 
     m_mecanumDriveSubsystem.setDefaultCommand(
-      Commands.run( () -> m_mecanumDriveSubsystem.driveCartesian(m_driverController.getLeftY(), m_driverController.getLeftX(), m_driverController.getRightX()), m_mecanumDriveSubsystem)
-    );
+        Commands.run(
+            () ->
+                m_mecanumDriveSubsystem.driveCartesian(
+                    m_driverController.getLeftY(),
+                    m_driverController.getLeftX(),
+                    m_driverController.getRightX()),
+            m_mecanumDriveSubsystem));
   }
 
   /**
@@ -56,12 +62,17 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
+    // new Trigger(m_driverController.a().onTrue(getAutonomousCommand()))
+    //     .onTrue(new GoToTargetCommand(m_cameraSubsystem, m_mecanumDriveSubsystem));
+
+    m_driverController
+        .a()
+        // .onTrue(new GoToTargetCommand(m_cameraSubsystem, m_mecanumDriveSubsystem));
+        .onTrue(new GoToSpecificTargetCommand(m_cameraSubsystem, m_mecanumDriveSubsystem));
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    m_driverController.b().whileTrue(m_launcherSubsystem.spoolUpLauncherCommand());
   }
 
   /**
