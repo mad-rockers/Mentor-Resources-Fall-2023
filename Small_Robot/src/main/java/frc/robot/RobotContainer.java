@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
-import frc.robot.commands.GoToTargetCommand;
+import frc.robot.commands.GoToSpecificTargetCommand;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.LauncherSubsystem;
@@ -67,7 +67,8 @@ public class RobotContainer {
 
     m_driverController
         .a()
-        .onTrue(new GoToTargetCommand(m_cameraSubsystem, m_mecanumDriveSubsystem));
+        // .onTrue(new GoToTargetCommand(m_cameraSubsystem, m_mecanumDriveSubsystem));
+        .onTrue(new GoToSpecificTargetCommand(m_cameraSubsystem, m_mecanumDriveSubsystem));
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
