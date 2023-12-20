@@ -21,6 +21,8 @@ public class CameraSubsystem extends SubsystemBase {
     this.limelightName = limelightName;
     LimelightHelpers.setLEDMode_ForceOff(limelightName);
 
+    targetData = new TargetData(0, 0, 0, 0, false, null);
+
     heightOfCamera = 8;
     heightOfTarget = 16;
     angleBetweenLevelPlaneAndCamera = 10;
@@ -62,6 +64,10 @@ public class CameraSubsystem extends SubsystemBase {
   }
 
   public void calculateDistanceFromTarget() {
+    if (targetData == null) {
+      distanceFromTarget = 0.0;
+      return;
+    }
     angleBetweenCameraAndTarget = targetData.ty;
 
     distanceFromTarget =
