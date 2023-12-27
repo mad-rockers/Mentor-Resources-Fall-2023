@@ -7,10 +7,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LauncherSubsystem extends SubsystemBase {
 
-  //   private MecanumDrive m_robotDrive;
   private PWMSparkMax leftMotor;
   private PWMSparkMax rightMotor;
   private double launcherSpeed;
+  private Timer timer;
 
   public LauncherSubsystem() {
     leftMotor = new PWMSparkMax(4);
@@ -18,38 +18,36 @@ public class LauncherSubsystem extends SubsystemBase {
 
     rightMotor.setInverted(true);
 
-    launcherSpeed = 0.80;
+    timer = new Timer();
 
-    /* commented out because we don't want to spool up the launcher on initialization */
-    // leftMotor.set(launcherSpeed);
-    // rightMotor.set(launcherSpeed);
+    /* 
+     * This initial launcher speed is lower than what we think we'll need, 
+     * but we'll be able to use the controller to increase or decrease it 
+     * as necessary.
+     */
+    launcherSpeed = 0.50;
   }
 
   public void spoolUpLauncher() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    // return runOnce(
-    //     () -> {
-    //       /* at time of writing, the launcher broke; so, for now, we DO NOT want to let the
-    // operator spool up the launcher */
-    //       //   leftMotor.set(launcherSpeed);
-    //       //   rightMotor.set(launcherSpeed);
-    //     });
-    Timer timer = new Timer();
-    timer.reset();
+    /* 
+     * Ensure that the launcher is stopped before assuming anything about speed.
+     */
     stopLauncher();
     double currentSpeed = 0.0;
 
+    timer.reset();
+
     while (currentSpeed < launcherSpeed) {
       timer.start();
-      while (timer.get() < 0.1) {
+      while (timer.get() < 0.2) {
         // wait
       }
-      timer.stop();
-      timer.reset();
       currentSpeed += 0.1;
       leftMotor.set(currentSpeed);
       rightMotor.set(currentSpeed);
+
+      timer.stop();
+      timer.reset();
     }
   }
 
@@ -61,16 +59,12 @@ public class LauncherSubsystem extends SubsystemBase {
   public void increaseLauncherSpeed() {
     if (launcherSpeed < 1.0) {
       launcherSpeed += 0.1;
-      // leftMotor.set(launcherSpeed);
-      // rightMotor.set(launcherSpeed);
     }
   }
 
   public void decreaseLauncherSpeed() {
     if (launcherSpeed > 0.1) {
       launcherSpeed -= 0.1;
-      // leftMotor.set(launcherSpeed);
-      // rightMotor.set(launcherSpeed);
     }
   }
 

@@ -61,21 +61,16 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    // new Trigger(m_driverController.a().onTrue(getAutonomousCommand()))
-    //     .onTrue(new GoToTargetCommand(m_cameraSubsystem, m_mecanumDriveSubsystem));
-
     m_driverController
-        .a()
-        // .onTrue(new GoToTargetCommand(m_cameraSubsystem, m_mecanumDriveSubsystem));
+        .x()
         .onTrue(new GoToSpecificTargetCommand(m_cameraSubsystem, m_mecanumDriveSubsystem));
 
     m_driverController
         .rightBumper()
-        .onTrue(Commands.run(() -> m_cameraSubsystem.incrementDesiredTarget(), m_cameraSubsystem));
+        .onTrue(Commands.runOnce(() -> m_cameraSubsystem.incrementDesiredTarget(), m_cameraSubsystem));
     m_driverController
         .leftBumper()
-        .onTrue(Commands.run(() -> m_cameraSubsystem.decrementDesiredTarget(), m_cameraSubsystem));
+        .onTrue(Commands.runOnce(() -> m_cameraSubsystem.decrementDesiredTarget(), m_cameraSubsystem));
 
     m_driverController
         .povUp()
@@ -88,13 +83,11 @@ public class RobotContainer {
             Commands.runOnce(
                 () -> m_launcherSubsystem.decreaseLauncherSpeed(), m_launcherSubsystem));
 
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
     m_driverController
         .b()
         .onTrue(Commands.runOnce(() -> m_launcherSubsystem.stopLauncher(), m_launcherSubsystem));
     m_driverController
-        .y()
+        .a()
         .onTrue(Commands.runOnce(() -> m_launcherSubsystem.spoolUpLauncher(), m_launcherSubsystem));
   }
 
