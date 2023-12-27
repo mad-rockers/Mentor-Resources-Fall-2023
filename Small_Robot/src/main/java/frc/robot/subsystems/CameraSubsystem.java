@@ -17,6 +17,8 @@ public class CameraSubsystem extends SubsystemBase {
   private double angleBetweenCameraAndTarget;
   private double distanceFromTarget;
 
+  private double desiredTarget;
+
   public CameraSubsystem(String limelightName) {
     this.limelightName = limelightName;
     LimelightHelpers.setLEDMode_ForceOff(limelightName);
@@ -26,6 +28,28 @@ public class CameraSubsystem extends SubsystemBase {
     heightOfCamera = 8;
     heightOfTarget = 16;
     angleBetweenLevelPlaneAndCamera = 10;
+
+    desiredTarget = 1.0;
+  }
+
+  public void incrementDesiredTarget() {
+    if (desiredTarget < 3.0) {
+      desiredTarget += 1.0;
+    } else {
+      desiredTarget = 1.0;
+    }
+  }
+
+  public void decrementDesiredTarget() {
+    if (desiredTarget > 1.0) {
+      desiredTarget -= 1.0;
+    } else {
+      desiredTarget = 3.0;
+    }
+  }
+
+  public double getDesiredTarget() {
+    return desiredTarget;
   }
 
   public LimelightResults getLatestResults() {
@@ -93,6 +117,7 @@ public class CameraSubsystem extends SubsystemBase {
     SmartDashboard.putNumber(
         "AngleBetween Level Plane and Camera:", angleBetweenLevelPlaneAndCamera);
     SmartDashboard.putNumber("Distance from Target:", distanceFromTarget);
+    SmartDashboard.putNumber("Desired Target:", desiredTarget);
 
     if (data.tv) {
       SmartDashboard.putBoolean("Valid Target Found:", data.tv);

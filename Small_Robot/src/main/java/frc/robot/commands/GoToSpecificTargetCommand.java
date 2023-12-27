@@ -47,7 +47,8 @@ public class GoToSpecificTargetCommand extends CommandBase {
   @Override
   public void execute() {
     // Add timer
-    if (m_CameraSubsystem.getValidTarget() && m_CameraSubsystem.getTargetID() == 3.0) {
+    if (m_CameraSubsystem.getValidTarget()
+        && m_CameraSubsystem.getTargetID() == m_CameraSubsystem.getDesiredTarget()) {
       if (m_CameraSubsystem.getDistance() > distanceLimit) {
         m_DriveSubsystem.driveForwards(forwardSpeed);
       } else {

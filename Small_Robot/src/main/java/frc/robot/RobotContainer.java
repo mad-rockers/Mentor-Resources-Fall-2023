@@ -70,6 +70,22 @@ public class RobotContainer {
         // .onTrue(new GoToTargetCommand(m_cameraSubsystem, m_mecanumDriveSubsystem));
         .onTrue(new GoToSpecificTargetCommand(m_cameraSubsystem, m_mecanumDriveSubsystem));
 
+    m_driverController
+        .rightBumper()
+        .onTrue(Commands.run(() -> m_cameraSubsystem.incrementDesiredTarget(), m_cameraSubsystem));
+    m_driverController
+        .leftBumper()
+        .onTrue(Commands.run(() -> m_cameraSubsystem.decrementDesiredTarget(), m_cameraSubsystem));
+
+    m_driverController
+        .povUp()
+        .onTrue(
+            Commands.run(() -> m_launcherSubsystem.increaseLauncherSpeed(), m_launcherSubsystem));
+    m_driverController
+        .povDown()
+        .onTrue(
+            Commands.run(() -> m_launcherSubsystem.decreaseLauncherSpeed(), m_launcherSubsystem));
+
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     m_driverController.b().whileTrue(m_launcherSubsystem.spoolUpLauncherCommand());
