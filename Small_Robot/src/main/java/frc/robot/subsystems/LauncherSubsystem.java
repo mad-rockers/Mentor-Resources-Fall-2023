@@ -20,16 +20,16 @@ public class LauncherSubsystem extends SubsystemBase {
 
     timer = new Timer();
 
-    /* 
-     * This initial launcher speed is lower than what we think we'll need, 
-     * but we'll be able to use the controller to increase or decrease it 
+    /*
+     * This initial launcher speed is lower than what we think we'll need,
+     * but we'll be able to use the controller to increase or decrease it
      * as necessary.
      */
     launcherSpeed = 0.50;
   }
 
   public void spoolUpLauncher() {
-    /* 
+    /*
      * Ensure that the launcher is stopped before assuming anything about speed.
      */
     stopLauncher();
@@ -39,7 +39,7 @@ public class LauncherSubsystem extends SubsystemBase {
 
     while (currentSpeed < launcherSpeed) {
       timer.start();
-      while (timer.get() < 0.2) {
+      while (timer.get() < 0.1) {
         // wait
       }
       currentSpeed += 0.1;

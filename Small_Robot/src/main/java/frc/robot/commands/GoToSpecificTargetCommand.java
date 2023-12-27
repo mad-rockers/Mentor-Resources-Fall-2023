@@ -68,7 +68,7 @@ public class GoToSpecificTargetCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (timer.get() > 10.0) {
+    if (timer.get() > 10.0 && !m_CameraSubsystem.getValidTarget()) {
       return true;
     }
     return false;

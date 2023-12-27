@@ -67,10 +67,12 @@ public class RobotContainer {
 
     m_driverController
         .rightBumper()
-        .onTrue(Commands.runOnce(() -> m_cameraSubsystem.incrementDesiredTarget(), m_cameraSubsystem));
+        .onTrue(
+            Commands.runOnce(() -> m_cameraSubsystem.incrementDesiredTarget(), m_cameraSubsystem));
     m_driverController
         .leftBumper()
-        .onTrue(Commands.runOnce(() -> m_cameraSubsystem.decrementDesiredTarget(), m_cameraSubsystem));
+        .onTrue(
+            Commands.runOnce(() -> m_cameraSubsystem.decrementDesiredTarget(), m_cameraSubsystem));
 
     m_driverController
         .povUp()
