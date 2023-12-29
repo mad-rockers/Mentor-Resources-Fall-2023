@@ -12,8 +12,8 @@ public class LauncherSubsystem extends SubsystemBase {
   private double launcherSpeed;
 
   public LauncherSubsystem() {
-    leftMotor = new PWMSparkMax(5);
-    rightMotor = new PWMSparkMax(6);
+    leftMotor = new PWMSparkMax(4);
+    rightMotor = new PWMSparkMax(5);
 
     leftMotor.setInverted(true);
 
