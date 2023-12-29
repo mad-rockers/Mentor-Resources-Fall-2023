@@ -68,7 +68,6 @@ public class CameraSubsystem extends SubsystemBase {
       double ty = fiducial.ty;
       double ta = fiducial.ta;
       double tid = fiducial.fiducialID;
-      // double ts = fiducial.ts;
       boolean tv = fiducial.fiducialID != 0; // Assuming ID 0 means no valid target
       Pose2d pose2d = fiducial.getRobotPose_TargetSpace2D();
 
