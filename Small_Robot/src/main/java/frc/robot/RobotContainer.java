@@ -80,22 +80,15 @@ public class RobotContainer {
     m_driverController
         .povUp()
         .onTrue(
-            Commands.runOnce(
-                () -> m_launcherSubsystem.increaseLauncherSpeed(), m_launcherSubsystem));
+            Commands.run(() -> m_launcherSubsystem.increaseLauncherSpeed(), m_launcherSubsystem));
     m_driverController
         .povDown()
         .onTrue(
-            Commands.runOnce(
-                () -> m_launcherSubsystem.decreaseLauncherSpeed(), m_launcherSubsystem));
+            Commands.run(() -> m_launcherSubsystem.decreaseLauncherSpeed(), m_launcherSubsystem));
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController
-        .b()
-        .onTrue(Commands.runOnce(() -> m_launcherSubsystem.stopLauncher(), m_launcherSubsystem));
-    m_driverController
-        .y()
-        .onTrue(Commands.runOnce(() -> m_launcherSubsystem.spoolUpLauncher(), m_launcherSubsystem));
+    m_driverController.b().whileTrue(m_launcherSubsystem.spoolUpLauncherCommand());
   }
 
   /**
