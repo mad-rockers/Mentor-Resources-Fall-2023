@@ -28,8 +28,9 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    SmartDashboard.putString("Software Version:", "selectable_targets V1.0 build 1 - Verified Operational");
-    System.out.println("Software Version: selectable_targets V1.0 build 1 - Verified Operational");
+    SmartDashboard.putString(
+        "Software Version:", "V1.2 build 1");
+    System.out.println("Software Version: V1.2 build 1");
     m_robotContainer = new RobotContainer();
   }
 
