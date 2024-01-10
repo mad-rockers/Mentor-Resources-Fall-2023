@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.LimelightHelpers;
 import frc.robot.LimelightHelpers.LimelightResults;
@@ -17,6 +16,8 @@ public class CameraSubsystem extends SubsystemBase {
   private double angleBetweenCameraAndTarget;
   private double distanceFromTarget;
 
+  private double desiredTarget;
+
   public CameraSubsystem(String limelightName) {
     this.limelightName = limelightName;
     LimelightHelpers.setLEDMode_ForceOff(limelightName);
@@ -26,6 +27,28 @@ public class CameraSubsystem extends SubsystemBase {
     heightOfCamera = 8;
     heightOfTarget = 16;
     angleBetweenLevelPlaneAndCamera = 10;
+
+    desiredTarget = 1.0;
+  }
+
+  public void incrementDesiredTarget() {
+    if (desiredTarget < 3.0) {
+      desiredTarget += 1.0;
+    } else {
+      desiredTarget = 1.0;
+    }
+  }
+
+  public void decrementDesiredTarget() {
+    if (desiredTarget > 1.0) {
+      desiredTarget -= 1.0;
+    } else {
+      desiredTarget = 3.0;
+    }
+  }
+
+  public double getDesiredTarget() {
+    return desiredTarget;
   }
 
   public LimelightResults getLatestResults() {
@@ -82,36 +105,37 @@ public class CameraSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    /* Calculate distance from target */
-    calculateDistanceFromTarget();
-    /* Get Target Data */
-    TargetData data = getTargetData();
+    // /* Calculate distance from target */
+    // calculateDistanceFromTarget();
+    // /* Get Target Data */
+    // TargetData data = getTargetData();
 
-    /* Update Dashboard */
-    SmartDashboard.putNumber("Height of Camera:", heightOfCamera);
-    SmartDashboard.putNumber("Height of Target:", heightOfTarget);
-    SmartDashboard.putNumber(
-        "AngleBetween Level Plane and Camera:", angleBetweenLevelPlaneAndCamera);
-    SmartDashboard.putNumber("Distance from Target:", distanceFromTarget);
+    // /* Update Dashboard */
+    // SmartDashboard.putNumber("Height of Camera:", heightOfCamera);
+    // SmartDashboard.putNumber("Height of Target:", heightOfTarget);
+    // SmartDashboard.putNumber(
+    //     "AngleBetween Level Plane and Camera:", angleBetweenLevelPlaneAndCamera);
+    // SmartDashboard.putNumber("Distance from Target:", distanceFromTarget);
+    // SmartDashboard.putNumber("Desired Target:", desiredTarget);
 
-    if (data.tv) {
-      SmartDashboard.putBoolean("Valid Target Found:", data.tv);
-      SmartDashboard.putNumber("Limelight X Value:", data.tx);
-      SmartDashboard.putNumber("Limelight Y Value:", data.ty);
-      SmartDashboard.putNumber("Limelight Area Value:", data.ta);
-      SmartDashboard.putNumber("Target ID:", data.tid);
-      SmartDashboard.putNumber("2d Pose X:", data.pose2d.getX());
-      SmartDashboard.putNumber("2d Pose Y:", data.pose2d.getY());
-      SmartDashboard.putNumber("2d Pose Rotation:", data.pose2d.getRotation().getDegrees());
-    } else {
-      SmartDashboard.putBoolean("Valid Target Found:", data.tv);
-      SmartDashboard.putNumber("Limelight X Value:", 0);
-      SmartDashboard.putNumber("Limelight Y Value:", 0);
-      SmartDashboard.putNumber("Limelight Area Value:", 0);
-      SmartDashboard.putNumber("Target ID:", 0);
-      SmartDashboard.putNumber("2d Pose X:", 0);
-      SmartDashboard.putNumber("2d Pose Y:", 0);
-      SmartDashboard.putNumber("2d Pose Rotation:", 0);
-    }
+    // if (data.tv) {
+    //   SmartDashboard.putBoolean("Valid Target Found:", data.tv);
+    //   SmartDashboard.putNumber("Limelight X Value:", data.tx);
+    //   SmartDashboard.putNumber("Limelight Y Value:", data.ty);
+    //   SmartDashboard.putNumber("Limelight Area Value:", data.ta);
+    //   SmartDashboard.putNumber("Target ID:", data.tid);
+    //   SmartDashboard.putNumber("2d Pose X:", data.pose2d.getX());
+    //   SmartDashboard.putNumber("2d Pose Y:", data.pose2d.getY());
+    //   SmartDashboard.putNumber("2d Pose Rotation:", data.pose2d.getRotation().getDegrees());
+    // } else {
+    //   SmartDashboard.putBoolean("Valid Target Found:", data.tv);
+    //   SmartDashboard.putNumber("Limelight X Value:", 0);
+    //   SmartDashboard.putNumber("Limelight Y Value:", 0);
+    //   SmartDashboard.putNumber("Limelight Area Value:", 0);
+    //   SmartDashboard.putNumber("Target ID:", 0);
+    //   SmartDashboard.putNumber("2d Pose X:", 0);
+    //   SmartDashboard.putNumber("2d Pose Y:", 0);
+    //   SmartDashboard.putNumber("2d Pose Rotation:", 0);
+    // }
   }
 }
